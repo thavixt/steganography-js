@@ -1,0 +1,14 @@
+.canvas-label {}
+canvas {
+	margin: auto;
+  display: block;
+  
+  height: 200px;
+  min-height: 150px;
+  max-height: 100%;
+  
+	max-width: 100%;
+
+  background-color: white;
+  border: 1px dotted teal;
+}

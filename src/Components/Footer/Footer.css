@@ -1,0 +1,12 @@
+.App-footer {
+  border-top: 0.5em solid #ffeb3b;
+  margin-top: 3em;
+}
+.App-footer a {
+  color: inherit;
+  text-decoration: underline;
+  transition: text-shadow 0.15s ease;
+}
+.App-footer a:hover {
+  color: white;
+}

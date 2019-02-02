@@ -1,0 +1,20 @@
+.progress-indicator-wrapper {
+    background-color: #d2d2d2;
+    height: 2px;
+    border-radius: 10px;
+  }
+  .progress-indicator {
+    /* position: fixed;
+    top: 40%; 
+    left: 0; */
+    display: block;
+    box-shadow: 2px 2px 10px #cfcfcf;
+    opacity: 0;
+    width: 0%;
+    height: 100%;
+    z-index: 9999;
+    transition: width 0.1s ease; 
+  }
+  .progress-indicator.active {
+      opacity: 1;
+  } 

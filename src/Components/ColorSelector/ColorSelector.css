@@ -1,0 +1,18 @@
+.color-selector-showcase {
+    display: block;
+    height: 2em;
+    width: 5em;
+}
+
+.color-selector {
+}
+
+.color-selector > input {
+    margin: 1.0933333333rem 1em .656rem 1em;
+}
+
+@media (max-width: 720px) {
+    .color-selector {
+        
+    }
+  }

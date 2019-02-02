@@ -1,0 +1,77 @@
+
+.App-header {
+  padding: 1em 2em 0.5em 2em;
+  margin-bottom: 1em;
+  border-bottom: 0.5em solid #ffeb3b;
+}
+
+.App-title {
+  margin: 0!important;
+  display: inline-block;
+}
+.App-title a {
+  color: inherit;
+  transition: text-shadow 0.15s ease;
+}
+.App-title a:hover {
+  color: white;
+}
+
+.App-links {
+  margin-left: 3em;
+}
+.App-links a {
+  color: inherit;
+  padding: 0.5em 1em 1em 1em;
+  margin: 1em 0em;
+  font-weight: bold;
+  text-transform: lowercase;
+}
+.App-links a.active {
+  background-color: #ffeb3b;
+  color: #9c27b0;
+}
+.App-links a:hover {
+  background-color: #ffeb3b;
+  color: #9c27b0;
+}
+/* .App-links a::after {
+  content: " / ";
+} */
+.App-links a::before {
+  content: "/ ";
+  font-weight: bold;
+}
+
+#roll-intro {
+  /* color: #D3D3D3; */
+}
+#roll-intro:hover {
+  /* color: #D3D3D3; */
+  /* background-color: initial; */
+}
+
+
+@media (max-width: 760px) {
+  .App-header {
+    text-align: center;
+    padding: 0.5em 0;
+  }
+  .App-links {
+    display: block;
+    margin: 1em 0 0 0;
+  }
+  .App-links a {
+    padding: 0.6em 1em;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .App-links a {
+    padding: 0.7em 0.5em;
+  }
+  .App-links a::before {
+    content: none;
+  }
+}

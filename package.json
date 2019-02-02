@@ -1,0 +1,27 @@
+{
+  "name": "steganography-js",
+  "version": "0.1.0",
+  "homepage": "http://komlosidev.net/projects/steganography-js",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "start-build": "serve -s build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "file-saver": "^1.3.3",
+    "funnies": "^2.0.0",
+    "history": "^4.7.2",
+    "intro.js": "^2.8.0-alpha.1",
+    "noty": "^3.2.0-beta",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17"
+  },
+  "devDependencies": {
+    "worker-loader": "^1.1.0"
+  }
+}
