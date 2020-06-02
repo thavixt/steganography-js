@@ -23,11 +23,12 @@ TODO: further implementation info & links
 
 ## TODOs / idea list
 
+- [x] refactor React components, update dependencies - in progress
+- [x] internationalization with i18next - in progress
+- [ ] refactor worker files
+- [ ] migrate to Typescript
 - [ ] new formats
     - [ ] research audio steganography
-- [ ] refactor worker files
-- [ ] refactor React components, update dependencies
-- [ ] migrate to Typescript
 - [ ] Electron/Webview app ?
 - [ ] PWA ?
 
