@@ -1,0 +1,45 @@
+{
+    "en": {
+        "color_selector": {
+            "select_color": "Select a color"
+        },
+        "common": {
+            "clear": "Clear",
+            "compare": "Compare",
+            "download": "Download",
+            "difference": "Difference",
+            "image": "Image",
+            "mode": "Mode",
+            "text": "Text"
+        },
+        "comparison": {
+            "diff_color": "Highlighted difference color",
+            "first_image": "First image",
+            "second_image": "Second image"
+        },
+        "footer": {
+            "inspired_by": "Inspired by Computerphile's video",
+            "built_with": "Build with"
+        },
+        "image_input": {
+            "select_file": "Select an image file (preferably .bmp/.png)"
+        },
+        "notification": {
+            "decoding_finished": "Decoding finished in {{time}} milliseconds.",
+            "diffing_finished": "Diffing finished in {{time}} milliseconds.",
+            "encoding_finished": "Encoding finished in {{time}} milliseconds.",
+            "error_noty": "Process aborted.<br/>Error message: {{message}}",
+            "size_mismatch_confirm": "The payload image will not fit into the source image.\nContinue anyway?",
+            "source_size_too_small": "The source image must be at least 4*4 pixels in size.",
+            "text_size_too_big": "The decoded text has been downloaded.\nPlease be aware that this file might be several MBs in size, and may briefly freeze your text editor when opened.\n\nIf you wish to hide some text into your image:\n\t- 'Clear' this text area\n\t- type your message here\n\t- and click 'Encode'.",
+            "unknown_operation": "Unknown operation - check the console for details."
+        },
+        "progress_bar": {
+            "perf_info": "Usage with high-res images may result in decreased performance."
+        },
+        "text_input": {
+            "label": "Text I/O",
+            "large_file_info": "Larger text output will be automatically downloaded as a .txt file. These files can be several MBs in size depending on the source image, so try opening it with a roboust text editor."
+        }
+    }
+}

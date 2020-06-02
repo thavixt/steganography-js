@@ -1,7 +1,10 @@
 import React from "react";
+import LangContext from "../../context/LangContext";
 import "./Footer.css";
 
 export default function Footer() {
+  const t = React.useContext(LangContext);
+
   return (
     <footer className="App-footer grey darken-4 page-footer">
       <div className="container">
@@ -9,7 +12,7 @@ export default function Footer() {
           <div className="col l6 s12">
             <h5 className="pink-text text-darken-1">Steganography.js</h5>
             <p className="pink-text text-darken-1">
-              Inspired by Computerphile's video - <em>
+              {t("footer:inspired_by")} - <em>
                 <a
                   href="https://www.youtube.com/watch?v=TWEXCYQKyDc"
                   target="_blank"
@@ -21,7 +24,9 @@ export default function Footer() {
             </p>
           </div>
           <div className="col l4 offset-l2 s12">
-            <h5 className="pink-text text-darken-1">Built with</h5>
+            <h5 className="pink-text text-darken-1">
+              {t("footer:built_with")}
+            </h5>
             <ul>
               <li>
                 <a
@@ -48,12 +53,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-copyright">
-        <div className="container">
-          {/* © {new Date().getFullYear()} Péter Komlósi */}
-          Website made by Péter Komlósi
+        <div className="container pink-text text-darken-1">
           <a
-            className="grey-text text-lighten-4 right"
-            href="https://github.com/thavixt"
+            className="pink-text text-darken-1 right"
+            href="https://github.com/thavixt/steganography-js-react"
             target="_blank"
             rel="noopener noreferrer"
           >

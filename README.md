@@ -7,15 +7,29 @@ The goal of this project was to create an online steganographic tool with Javasc
 I started the project in late 2017 after being inspired by Computerphile's video about steganography:
 * [Secrets Hidden in Images (Steganography) - Computerphile](https://www.youtube.com/watch?v=TWEXCYQKyDc)
 
-## Usage
+## Development
 
-TODO
+This is a fairly standard project built with `create-react-app`. No custom scripts, just refer to the ˙package.json` file.
+
+Internationalization is done with [i18next](https://www.i18next.com/). A custom script was written to build the required JSON translation file(s), which you can customize based on your backend/translation service.
+
+To enable web workers through Webpack, I used the `worker-loader` package (imports prefixed by `!worker-loader`).
 
 ## Implementation details
 
 The project currently uses a custom implementation of LSB steganography.
 
-TODO
+TODO: further implementation info & links
+
+## TODOs / idea list
+
+- [ ] new formats
+    - [ ] research audio steganography
+- [ ] refactor worker files
+- [ ] refactor React components, update dependencies
+- [ ] migrate to Typescript
+- [ ] Electron/Webview app ?
+- [ ] PWA ?
 
 ## Further reading - links & notes
 
@@ -46,55 +60,5 @@ Utilizing the HTML5 Canvas API:
 
 Other:
 * [FileSaver.js - eligrey](https://github.com/eligrey/FileSaver.js/)
-* [Funnies - 1egoman](https://github.com/1egoman/funnies)
 * [image-diff-view - -a-x](https://github.com/a-x-/image-diff-view)
 
-## React tips & tricks
-
-### Changing component routes without a redirect
-
-1. Use `render` instead of `component` in `<Route/>`s:
-
-    ```jsx
-    // instead of:
-    <Route path="/home" component={Home} />
-    // use 'render':
-    <Route path="/home" render={() => <Home {...props} {...historyProps} />} />
-    ```
-
-    This way, React will pass down `history` in the component's `props`, so you can use all it's functions inside the Route.
-
-    [render: func (docs)](https://reacttraining.com/react-router/web/api/Route/render-func)
-
-2. Create an instance of `history/createBrowserHistory` and use `history.push('/route')` to change routes:
-
-    ```jsx
-    // createBrowserHistory is for use in modern web browsers
-    // that support the HTML5 history API
-    import createHistory from "history/createBrowserHistory";
-
-    const history = createHistory({
-        // NOTE: all params are optional
-        basename: "/", // The base URL of the app
-        forceRefresh: false, // Set true to force full page refreshes
-        keyLength: 6, // The length of location.key
-        // A function to use to confirm navigation with the user 
-        getUserConfirmation: (message, callback) => callback(window.confirm(message))
-    });
-
-    class MyComponent extends React.Component {
-        constructor(props) {
-            super(props)
-            this.state = {}
-        }
-        render() {
-            return (
-                <button onClick={() => history.push("/route")}>
-                { /* or */ }
-                <button onClick={() => this.props.history.push("/route")}>
-            )
-        }
-    }
-    ```
-
-    [usage (docs)](https://github.com/ReactTraining/history/blob/master/README.md)

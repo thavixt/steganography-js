@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import LangContext from "../../context/LangContext";
 import "./TextAreaSection.css";
 
-export default class CanvasSection extends Component {
+export default class TextAreaSection extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -16,11 +17,9 @@ export default class CanvasSection extends Component {
   }
 
   handleProcess() {
-    // Get the message string
-    let string = JSON.stringify(this._textArea.value);
-    let uint8_array = new TextEncoder(/* document.characterSet.toLowerCase() */)
-      .encode(string);
-    let payload = uint8_array.buffer;
+    const string = JSON.stringify(this._textArea.value);
+    const uint8_array = new TextEncoder().encode(string);
+    const payload = uint8_array.buffer;
     this.props.process({
       process: this.props.processName,
       text: {
@@ -31,6 +30,7 @@ export default class CanvasSection extends Component {
   }
 
   render() {
+    const t = this.context;
     const disableButtons = !this.props.sourceFileLoaded ||
       this.props.isAProcessActive;
 
@@ -39,7 +39,7 @@ export default class CanvasSection extends Component {
         <br />
         <div className="section-content input-field">
           <label className="label" htmlFor={this.props.id + "-text"}>
-            Text I/O *
+            {t("text_input:label")} *
           </label>
           <br />
           <br />
@@ -50,11 +50,7 @@ export default class CanvasSection extends Component {
           >
           </textarea>
           <span>
-            * <small>
-              Larger text output will be automatically downloaded as a .txt
-              file. These files can be several MBs in size depending on the
-              source image, so try opening it with a roboust text editor.
-            </small>
+            * <small>{t("text_input:large_file_info")}</small>
           </span>
         </div>
         <div className="section-actions secondary">
@@ -63,7 +59,7 @@ export default class CanvasSection extends Component {
             disabled={this.props.isAProcessActive}
             onClick={() => this.resetState()}
           >
-            Clear
+            {t("common:clear")}
           </button>
         </div>
         <div className="section-actions">
@@ -79,3 +75,5 @@ export default class CanvasSection extends Component {
     );
   }
 }
+
+TextAreaSection.contextType = LangContext;

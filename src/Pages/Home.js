@@ -3,15 +3,16 @@ import FileSaver from "file-saver";
 import Noty from "noty";
 import "noty/lib/noty.css";
 import "noty/lib/themes/semanticui.css";
-import CanvasSection from "../Components/CanvasSection/CanvasSection";
-import TextAreaSection from "../Components/TextAreaSection/TextAreaSection";
-import ProgressBar from "../Components/ProgressBar/ProgressBar";
-/* eslint-disable-next-line */
-import decoderWorker from "worker-loader!../Workers/decoder.worker";
-/* eslint-disable-next-line */
-import encodeWorker from "worker-loader!../Workers/encoder.worker";
+import LangContext from "../context/LangContext";
+import CanvasSection from "../compontens/CanvasSection/CanvasSection";
+import TextAreaSection from "../compontens/TextAreaSection/TextAreaSection";
+import ProgressBar from "../compontens/ProgressBar/ProgressBar";
+/* eslint-disable */
+import decoderWorker from "worker-loader!../workers/decoder.worker";
+import encodeWorker from "worker-loader!../workers/encoder.worker";
+/* eslint-enable */
 
-export default class App extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,33 +45,31 @@ export default class App extends Component {
   }
 
   onDecoderMessage(e, transferList) {
+    const t = this.context;
+
     if (e.data.progressBar) {
       this.setState({ progress: e.data.progressBar });
     }
+
     if (e.data.error) {
       console.log(e.data);
       this.setState({ processActive: false });
       this.setState({ progress: 0 });
 
-      // Update stats
-      this._progressBar.showStats("Error: " + e.data.error);
       new Noty({
         theme: "semanticui",
         type: "error",
         layout: "topRight",
-        text: "Error:<br/>" + e.data.error,
+        text: t("notification:error_noty", { message: e.data.error }),
         timeout: 5000,
       }).show();
     }
-    // Work finished
+
     if (e.data.done) {
       this.setState({ progress: 100 });
-      //console.log("Decoding finished in " + e.data.done + " milliseconds.");
-      //console.log(e.data);
 
-      // Split the file name from the extension
-      let fileName = this.state.sourceFileName.split(".").shift();
       // Create a random file name
+      let fileName = this.state.sourceFileName.split(".").shift();
       fileName = fileName + "_stegojs_" + (Math.random() * 10000).toFixed();
 
       // Text mode result
@@ -86,32 +85,25 @@ export default class App extends Component {
         );
         // Decode the view into a text string:
         let string = decoder.decode(view);
-        // Parse the decoded text into a JSON object
         let text = JSON.parse(string);
 
         // If the text is fairly big, save as a .txt file instead of displaying it
         if (text.length > 1000) {
-          // Using Filesaver.js
           var blob = new Blob(text, { type: "text/plain;charset=utf-8" });
           FileSaver.saveAs(blob, fileName + ".txt");
-          this._resultTextArea.setText(
-            "The decoded text has been downloaded.\nPlease be aware that this file might be several MBs in size, and may briefly freeze your text editor when opened.\n\nIf you wish to hide some text into your image:\n\t- 'Clear' this text area\n\t- type your message here\n\t- and click 'Encode'.",
-          );
+          this._resultTextArea.setText(t("notification:text_size_too_big"));
         } else {
           let resultText = text.join("");
           this._resultTextArea.setText(resultText);
         }
       } // Image mode result
       else if (e.data.type === "image") {
-        // Create a TypedArray from the transferred ArrayBuffer
         let typed = new Uint8ClampedArray(e.data.result.buffer);
-        // Create an ImageData object to draw to the canvas
         let resultImage = new ImageData(
           typed,
           e.data.result.width,
           e.data.result.height,
         );
-        //console.log(resultImage);
         // Draw the new image
         this._resultCanvas.updateImage(
           resultImage,
@@ -120,24 +112,11 @@ export default class App extends Component {
         this._resultCanvas.scale("in");
       }
 
-      // Log to db
-      //   this.log({
-      //     processTime: e.data.done.toString(),
-      //     function: "decode",
-      //     type: e.data.type,
-      //     result: e.data.result.byteLength.toString(),
-      //     payload: e.data.payload.byteLength.toString(),
-      //   });
-
-      // Update stats
-      this._progressBar.showStats(
-        "Decoding finished in " + e.data.done + " milliseconds.",
-      );
       new Noty({
         theme: "semanticui",
         type: "success",
         layout: "topRight",
-        text: "Decoding finished in " + e.data.done + " milliseconds.",
+        text: t("notification:decoding_finished", { time: e.data.done }),
         timeout: 5000,
       }).show();
 
@@ -153,7 +132,8 @@ export default class App extends Component {
   }
 
   decode(params) {
-    //console.clear();
+    const t = this.context;
+
     // Perform checks
     if (this.state.mode === "image") {
       // Check if the image is at least 4*4 pixels to perform LSB steganography on
@@ -162,20 +142,18 @@ export default class App extends Component {
           theme: "semanticui",
           type: "error",
           layout: "topRight",
-          text: "The source image must be at least 4*4 pixels in size.",
+          text: t("notification:source_size_too_small"),
           timeout: 5000,
         }).show();
-        return false;
+        return;
       }
-    } // Reset component - clear canvas or textArea
-    //this.state.mode === "image" ? this._resultCanvas.resetState() : this._resultTextArea.resetState();
+    }
+
     this.state.mode === "image"
       ? this._resultCanvas.scale("out")
       : this._resultTextArea.resetState();
     this.setState({ processActive: true });
-    // Instantiate a new decoder
     this.decoder = new decoderWorker();
-    // Set worker message handler
     this.decoder.onmessage = this.onDecoderMessage.bind(this);
     // Pass payload to the decoder worker
     this.decoder.postMessage({
@@ -185,72 +163,53 @@ export default class App extends Component {
   }
 
   onEncoderMessage(e, transferList) {
+    const t = this.context;
+
     if (e.data.progressBar) {
       this.setState({ progress: e.data.progressBar });
     }
-    // Error
+
     if (e.data.error) {
       console.log(e.data);
       this.setState({ processActive: false });
       this.setState({ progress: 0 });
 
-      // Update stats
-      this._progressBar.showStats("Error: " + e.data.error);
       new Noty({
         theme: "semanticui",
         type: "error",
         layout: "topRight",
-        text: "Error:<br/>" + e.data.error,
+        text: t("notification:error_noty", { message: e.data.error }),
         timeout: 5000,
       }).show();
     }
-    // Work finished
+
     if (e.data.done) {
       this.setState({ progress: 100 });
-      //console.log("Encoding finished in " + e.data.done + " milliseconds.");
-      //console.log(e.data);
 
-      // Split the file name from the extension
-      let fileName = this.state.sourceFileName.split(".").shift();
       // Create a random file name
-      fileName = fileName + "_stegojs_" + (Math.random() * 10000).toFixed();
+      let fileName = this.state.sourceFileName.split(".").shift() +
+        "_stegojs_" + (Math.random() * 10000).toFixed();
 
       // Create a TypedArray from the transferred ArrayBuffer
-      let typed = new Uint8ClampedArray(e.data.result.buffer);
+      const typed = new Uint8ClampedArray(e.data.result.buffer);
       // Create an ImageData object to draw to the canvas
-      let resultImage = new ImageData(
+      const resultImage = new ImageData(
         typed,
         e.data.result.width,
         e.data.result.height,
       );
-
-      // Draw the new image
       this._sourceCanvas.updateImage(
-        resultImage,
-        //new ImageData(new Uint8ClampedArray([123, 0, 123, 255]), 1, 1),
+        resultImage, //new ImageData(new Uint8ClampedArray([123, 0, 123, 255]), 1, 1),
         fileName + ".bmp",
       );
 
       this._sourceCanvas.scale("in");
 
-      // Log to db
-      //   this.log({
-      //     processTime: e.data.done.toString(),
-      //     function: "encode",
-      //     type: e.data.type,
-      //     result: e.data.result.byteLength.toString(),
-      //     payload: e.data.payload.byteLength.toString(),
-      //   });
-
-      // Update stats
-      this._progressBar.showStats(
-        "Encoding finished in " + e.data.done + " milliseconds.",
-      );
       new Noty({
         theme: "semanticui",
         type: "success",
         layout: "topRight",
-        text: "Encoding finished in " + e.data.done + " milliseconds.",
+        text: t("notification:encoding_finished", { time: e.data.done }),
         timeout: 5000,
       }).show();
 
@@ -266,12 +225,11 @@ export default class App extends Component {
   }
 
   encode(params) {
-    //console.clear();
+    const t = this.context;
+
     this.setState({ processActive: true });
-    // Reset canvas
-    //this.resetCanvas();
-    //this._sourceCanvas.resetState();
     let payload, transferList;
+
     // Get the source image
     let canvas = document.getElementById("source-canvas");
     let ctx = canvas.getContext("2d");
@@ -281,6 +239,7 @@ export default class App extends Component {
       width: canvas.width,
       height: canvas.height,
     };
+
     // Get payload and perform checks
     if (this.state.mode === "image") {
       // We're trying to store the payload image inside the source image
@@ -288,13 +247,9 @@ export default class App extends Component {
         (params.image.height * 2 > image.height) ||
         (params.image.width * 2 > image.width)
       ) {
-        if (
-          !window.confirm(
-            "The payload image will not fit into the source image.\nContinue anyway?",
-          )
-        ) {
+        if (!window.confirm(t("notification:size_mismatch_confirm"))) {
           this.setState({ processActive: false });
-          return false;
+          return;
         }
       }
       payload = params.image;
@@ -306,19 +261,16 @@ export default class App extends Component {
       transferList = [imageData.data.buffer];
       this._resultTextArea.resetState();
     } else {
-      window.alert("Unknown operation - check the console for details.");
+      window.alert(t("notification:unknown_operation"));
       console.error(
         'Encode process"' + this.state.mode + '" is not recognized.',
       );
-      return false;
+      return;
     }
 
     this._sourceCanvas.scale("out");
-
     this.setState({ processActive: true });
-    // Instantiate a new decoder
     this.encoder = new encodeWorker();
-    // Set worker message handler
     this.encoder.onmessage = this.onEncoderMessage.bind(this);
     // Pass payload to the encoder worker
     this.encoder.postMessage({
@@ -330,55 +282,12 @@ export default class App extends Component {
   }
 
   render() {
-    const activeProgressBar = <ProgressBar
-      ref={(ref) => this._progressBar = ref}
-      active={this.state.processActive}
-      progress={this.state.progress}
-      id="stego-progressbar"
-    />;
-
-    const sourceCanvasSection = <CanvasSection
-      ref={(ref) => this._sourceCanvas = ref}
-      id="source"
-      sourceFileLoaded="true"
-      onFileLoaded={(bool, name) => this.sourceFileLoaded(bool, name)}
-      process={(params) => this.decode(params)}
-      processName="decode"
-      isAProcessActive={this.state.processActive}
-      clear={true}
-      download={true}
-      test_load="sunset.png"
-      test_run="true"
-    />;
-
-    const resultCanvasSection = <CanvasSection
-      ref={(ref) => this._resultCanvas = ref}
-      id="result"
-      sourceFileLoaded={this.state.sourceFileLoaded}
-      onFileLoaded={() => {}}
-      process={(params) => this.encode(params)}
-      isAProcessActive={this.state.processActive}
-      processName="encode"
-      clear={true}
-      download={true}
-    />;
-
-    const resultTextSection = <TextAreaSection
-      ref={(ref) => this._resultTextArea = ref}
-      id="result"
-      clear="true"
-      sourceFileLoaded={this.state.sourceFileLoaded}
-      onFileLoaded={() => {}}
-      process={(params) => this.encode(params)}
-      isAProcessActive={this.state.processActive}
-      processName="encode"
-    />;
-
+    const t = this.context;
     return (
       <div>
         <div className="App-content">
           <div className="output-selector" id="io-selector">
-            <label htmlFor="mode">Mode:</label>
+            <label htmlFor="mode">{t("common:mode")}:</label>
             <label className="radio-label">
               <input
                 name="mode"
@@ -386,7 +295,7 @@ export default class App extends Component {
                 onChange={() => this.changeOutputMode("image")}
                 defaultChecked
               />
-              <span>Image</span>
+              <span>{t("common:image")}</span>
             </label>
             <label className="radio-label">
               <input
@@ -394,21 +303,54 @@ export default class App extends Component {
                 type="radio"
                 onChange={() => this.changeOutputMode("text")}
               />
-              <span>Text</span>
+              <span>{t("common:text")}</span>
             </label>
           </div>
-          {activeProgressBar}
+          <ProgressBar
+            active={this.state.processActive}
+            progress={this.state.progress}
+            id="stego-progressbar"
+          />
           <div id="grid-wrapper">
             <div className="grid-element" id="source-section">
               <h5 className="section-title">Source image</h5>
-              {sourceCanvasSection}
+              <CanvasSection
+                ref={(ref) => this._sourceCanvas = ref}
+                id="source"
+                sourceFileLoaded="true"
+                onFileLoaded={(bool, name) => this.sourceFileLoaded(bool, name)}
+                process={(params) => this.decode(params)}
+                processName="decode"
+                isAProcessActive={this.state.processActive}
+                clear={true}
+                download={true}
+              />
             </div>
 
             <div className="grid-element" id="result-section">
               <h5 className="section-title">Input / output</h5>
               {this.state.mode === "image"
-                ? resultCanvasSection
-                : resultTextSection}
+                ? (<CanvasSection
+                  ref={(ref) => this._resultCanvas = ref}
+                  id="result"
+                  sourceFileLoaded={this.state.sourceFileLoaded}
+                  onFileLoaded={() => {}}
+                  process={(params) => this.encode(params)}
+                  isAProcessActive={this.state.processActive}
+                  processName="encode"
+                  clear={true}
+                  download={true}
+                />)
+                : (<TextAreaSection
+                  ref={(ref) => this._resultTextArea = ref}
+                  id="result"
+                  clear="true"
+                  sourceFileLoaded={this.state.sourceFileLoaded}
+                  onFileLoaded={() => {}}
+                  process={(params) => this.encode(params)}
+                  isAProcessActive={this.state.processActive}
+                  processName="encode"
+                />)}
             </div>
           </div>
         </div>
@@ -416,3 +358,5 @@ export default class App extends Component {
     );
   }
 }
+
+Home.contextType = LangContext;

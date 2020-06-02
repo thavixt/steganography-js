@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./CanvasSection.css";
 import FileSaver from "file-saver";
+import LangContext from "../../context/LangContext";
+import "./CanvasSection.css";
 
 export default class CanvasSection extends Component {
   constructor(props) {
@@ -14,40 +15,6 @@ export default class CanvasSection extends Component {
 
   scale(phase) {
     this.setState({ scale: phase });
-  }
-
-  componentDidMount() {
-    let queryString = "?" + window.location.href.split("?").pop();
-    let queryParams = new URLSearchParams(queryString);
-    // Look for a specific query parameter
-    if (queryParams.has("test") === true && this.props.test_load) {
-      console.log(
-        "%c Automatic Test Mode ",
-        "background-color: black; color: white",
-      );
-
-      const TEST_IMAGE = this.props.test_load;
-
-      let canvas = this._canvas;
-      let ctx = canvas.getContext("2d");
-      // Reset canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.height = 150;
-      canvas.width = 300;
-
-      // Create a new image from the input file
-      let img = new Image();
-      img.onload = () => {
-        canvas.height = img.height;
-        canvas.width = img.width;
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(img, 0, 0);
-        if (this.props.test_run) this.handleProcess();
-      };
-      img.src = "test_images/" + TEST_IMAGE;
-      this.setState({ fileName: TEST_IMAGE, fileLoaded: true });
-      this.props.onFileLoaded(true, TEST_IMAGE);
-    }
   }
 
   handleFileChange(file) {
@@ -134,18 +101,7 @@ export default class CanvasSection extends Component {
   }
 
   render() {
-    const fileInput = (this.props.disableInput) ? ("") : (<div>
-      <label className="label" htmlFor={this.props.id + "-input"}>
-        Select an image file (preferably .bmp/.png)
-      </label>
-      <br />
-      <input
-        type="file"
-        id={this.props.id + "-input"}
-        ref={(ref) => this._fileInput = ref}
-        onChange={(e) => this.handleFileChange(e.target.files[0])}
-      />
-    </div>);
+    const t = this.context;
 
     const disableSecondaryButtons = !this.props.clear ||
       !this.state.fileLoaded ||
@@ -154,39 +110,20 @@ export default class CanvasSection extends Component {
       !this.state.fileLoaded ||
       this.props.isAProcessActive;
 
-    const clearButton = this.props.clear &&
-      <button
-        className="waves-effect waves-light btn pink darken-1 black-text"
-        disabled={disableSecondaryButtons}
-        onClick={() => this.resetState()}
-      >
-        Clear
-      </button>;
-
-    const downloadButton = this.props.download &&
-      <button
-        className="waves-effect waves-light btn pink darken-1 black-text"
-        disabled={disableSecondaryButtons}
-        onClick={() => this.downloadCanvas()}
-      >
-        Download
-      </button>;
-
-    const processButton = this.props.process &&
-      <button
-        className="waves-effect waves-light btn grey darken-4"
-        disabled={disablePrimaryButton}
-        onClick={() => this.handleProcess()}
-      >
-        {(this.props.processName === "encode")
-          ? (<i className="material-icons left"></i>)
-          : (<i className="material-icons right"></i>)}
-        {this.props.processName}
-      </button>;
-
     return (
       <div>
-        {fileInput}
+        {!this.props.disableInput && <div>
+          <label className="label" htmlFor={this.props.id + "-input"}>
+            {t("image_input:select_file")}
+          </label>
+          <br />
+          <input
+            type="file"
+            id={this.props.id + "-input"}
+            ref={(ref) => this._fileInput = ref}
+            onChange={(e) => this.handleFileChange(e.target.files[0])}
+          />
+        </div>}
         <br />
 
         <div
@@ -205,14 +142,40 @@ export default class CanvasSection extends Component {
         </div>
 
         <div className="section-actions secondary">
-          {clearButton}
-          {downloadButton}
+          {this.props.clear &&
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={disableSecondaryButtons}
+              onClick={() => this.resetState()}
+            >
+              {t("common:clear")}
+            </button>}
+          {this.props.download &&
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={disableSecondaryButtons}
+              onClick={() => this.downloadCanvas()}
+            >
+              {t("common:download")}
+            </button>}
         </div>
 
         <div className="section-actions">
-          {processButton}
+          {this.props.process &&
+            <button
+              className="waves-effect waves-light btn grey darken-4"
+              disabled={disablePrimaryButton}
+              onClick={() => this.handleProcess()}
+            >
+              {(this.props.processName === "encode")
+                ? (<i className="material-icons left"></i>)
+                : (<i className="material-icons right"></i>)}
+              {this.props.processName}
+            </button>}
         </div>
       </div>
     );
   }
 }
+
+CanvasSection.contextType = LangContext;

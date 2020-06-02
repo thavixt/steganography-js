@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Noty from "noty";
-import CanvasSection from "../Components/CanvasSection/CanvasSection";
-import ColorSelector from "../Components/ColorSelector/ColorSelector";
-import ProgressBar from "../Components/ProgressBar/ProgressBar";
+import LangContext from "../context/LangContext";
+import CanvasSection from "../compontens/CanvasSection/CanvasSection";
+import ColorSelector from "../compontens/ColorSelector/ColorSelector";
+import ProgressBar from "../compontens/ProgressBar/ProgressBar";
 /* eslint-disable-next-line */
-import differWorker from "worker-loader!../Workers/differ.worker";
+import differWorker from "worker-loader!../workers/differ.worker";
 
 export default class Comparison extends Component {
   constructor(props) {
@@ -27,30 +28,27 @@ export default class Comparison extends Component {
   }
 
   onDifferMessage(e, transferList) {
-    // Progression % data from the worker thread
+    const t = this.context;
+
     if (e.data.progressBar) {
       this.setState({ progress: e.data.progressBar });
     }
-    // Error
-    if (e.data.error) {
-      //console.log(e.data);
-      this.setState({ processActive: false });
-      this.setState({ progress: 0 });
 
-      // Update stats
-      this._progressBar.showStats("Error: " + e.data.error);
+    if (e.data.error) {
+      this.setState({ processActive: false, progress: 0 });
+
       new Noty({
         theme: "semanticui",
         type: "error",
         layout: "topRight",
-        text: "Error:<br/>" + e.data.error,
+        text: t("notification:error_noty", { message: e.data.error }),
         timeout: 2000,
       }).show();
     }
-    // Work finished
+
     if (e.data.done) {
       this.setState({ progress: 100 });
-      //console.log("Decoding finished in " + e.data.done + " milliseconds.");
+
       let fileName = "diff_stegojs_" + (Math.random() * 10000).toFixed();
 
       // Image mode result
@@ -69,24 +67,11 @@ export default class Comparison extends Component {
       );
       this._resultCanvas.scale("in");
 
-      // Log to db
-      //   this.log({
-      //     processTime: e.data.done.toString(),
-      //     function: "diff",
-      //     type: e.data.type,
-      //     result: e.data.result.byteLength.toString(),
-      //     payload: "0",
-      //   });
-
-      // Update stats
-      this._progressBar.showStats(
-        "Diffing finished in " + e.data.done + " milliseconds.",
-      );
       new Noty({
         theme: "semanticui",
         type: "success",
         layout: "topRight",
-        text: "Diffing finished in " + e.data.done + " milliseconds.",
+        text: t("notification:diffing_finished", { time: e.data.done }),
         timeout: 5000,
       }).show();
 
@@ -95,8 +80,7 @@ export default class Comparison extends Component {
       this.differ = null;
 
       setTimeout(() => {
-        this.setState({ processActive: false });
-        this.setState({ progress: 0 });
+        this.setState({ processActive: false, progress: 0 });
       }, 1000);
     }
   }
@@ -114,6 +98,7 @@ export default class Comparison extends Component {
       width: canvas.width,
       height: canvas.height,
     };
+
     // Get the second image
     let canvas2 = document.getElementById("second-image-canvas");
     let ctx2 = canvas2.getContext("2d");
@@ -123,6 +108,7 @@ export default class Comparison extends Component {
       width: canvas2.width,
       height: canvas2.height,
     };
+
     // Get the selected highlight color
     const highlight = this._colorSelector.getColor();
 
@@ -148,72 +134,49 @@ export default class Comparison extends Component {
   }
 
   render() {
-    const firstImage = <CanvasSection
-      ref={(ref) => this._firstImage = ref}
-      id="first-image"
-      onFileLoaded={(bool, name) => this.firstFileLoaded(bool, name)}
-      isAProcessActive={this.state.processActive}
-      test_load="test.png"
-      hideCanvas
-    />;
-
-    const secondImage = <CanvasSection
-      ref={(ref) => this._secondImage = ref}
-      id="second-image"
-      sourceFileLoaded="true"
-      onFileLoaded={(bool, name) => this.secondFileLoaded(bool, name)}
-      isAProcessActive={this.state.processActive}
-      test_load="test-altered.bmp"
-      hideCanvas
-    />;
-
-    const processButton = <button
-      className="waves-effect waves-light btn grey darken-4"
-      disabled={!this.state.firstFile || !this.state.secondFile ||
-        this.state.processActive}
-      onClick={() => this.diff()}
-      style={{ margin: "auto" }}
-    >
-      Compare
-    </button>;
-
-    const resultImage = <CanvasSection
-      style={{ width: 2 }}
-      ref={(ref) => this._resultCanvas = ref}
-      id="result-image"
-      disableInput
-    />;
-
+    const t = this.context;
     return (
       <div className="App-content pad-top">
         <ProgressBar
-          ref={(ref) => this._progressBar = ref}
           active={this.state.processActive}
           progress={this.state.progress}
-        />;
+        />
         <div id="grid-wrapper-vertical">
           <div
             className="grid-element"
             id="first-section"
             style={{ gridColumnStart: 1 }}
           >
-            <h5 className="section-title">First image</h5>
-            {firstImage}
+            <h5 className="section-title">{t("comparison:first_image")}</h5>
+            <CanvasSection
+              ref={(ref) => this._firstImage = ref}
+              id="first-image"
+              onFileLoaded={(bool, name) => this.firstFileLoaded(bool, name)}
+              isAProcessActive={this.state.processActive}
+              hideCanvas
+            />
           </div>
           <div
             className="grid-element"
             id="second-section"
             style={{ gridColumnStart: 1 }}
           >
-            <h5 className="section-title">Second image</h5>
-            {secondImage}
+            <h5 className="section-title">{t("comparison:second_image")}</h5>
+            <CanvasSection
+              ref={(ref) => this._secondImage = ref}
+              id="second-image"
+              sourceFileLoaded="true"
+              onFileLoaded={(bool, name) => this.secondFileLoaded(bool, name)}
+              isAProcessActive={this.state.processActive}
+              hideCanvas
+            />
           </div>
           <div
             className="grid-element"
             id="highlight-section"
             style={{ gridColumnStart: 1 }}
           >
-            <h5 className="section-title">Highlight color</h5>
+            <h5 className="section-title">{t("comparison:diff_color")}</h5>
             <ColorSelector ref={(ref) => this._colorSelector = ref} />
           </div>
 
@@ -222,10 +185,23 @@ export default class Comparison extends Component {
             id="result-section"
             style={{ gridRow: "1 / span 4", gridColumnStart: 2 }}
           >
-            <h5 className="section-title">Difference</h5>
-            {resultImage}
+            <h5 className="section-title">{t("common:difference")}</h5>
+            <CanvasSection
+              style={{ width: 2 }}
+              ref={(ref) => this._resultCanvas = ref}
+              id="result-image"
+              disableInput
+            />
             <div className="section-actions">
-              {processButton}
+              <button
+                className="waves-effect waves-light btn grey darken-4"
+                disabled={!this.state.firstFile || !this.state.secondFile ||
+                  this.state.processActive}
+                onClick={() => this.diff()}
+                style={{ margin: "auto" }}
+              >
+                {t("common:compare")}
+              </button>
             </div>
           </div>
         </div>
@@ -233,3 +209,5 @@ export default class Comparison extends Component {
     );
   }
 }
+
+Comparison.contextType = LangContext;
