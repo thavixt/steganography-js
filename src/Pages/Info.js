@@ -87,29 +87,32 @@ export default function Info() {
               <p>
                 We draw the selected image to a canvas (sometimes in the
                 background), then read it pixel-by-pixel. Each pixel is stored
-                as an object of four 8bit values:<em>red</em>, <em>green</em>
-                <em>blue</em> and <em>alpha (transparency)</em> respectively.
+                as an array of four 8bit values: <em>
+                  red, green, blue and alpha (transparency)
+                </em> respectively.
               </p>
-              <pre><code>{`125, 48, 210, 255`}</code></pre>
+              <pre><code>{`[125, 48, 210, 255]`}</code></pre>
 
               <strong>Step 2:</strong>
               <p>
                 These values are then converted to binary.
               </p>
               <pre>
-                <code>{`01111101, 00110000, 11010010, 11111111`}</code>
+                <code>{`[01111101, 00110000, 11010010, 11111111]`}</code>
               </pre>
 
               <strong>Step 3:</strong>
               <p>
-                We extract the steganographic, <em>hidden</em>
-                data by taking the last 2 bits of every byte of each pixel.
+                We extract the steganographic, <em>
+                  hidden
+                </em>&nbsp;data by taking the last 2 bits of every byte of each
+                pixel.
               </p>
               <pre>
                 <code>
-                  {`01111101, 00110000, 11010010, 11111111`}
+                  {`[01111101, 00110000, 11010010, 11111111]`}
                   <br />
-                  {`      01,       00,       10,       11`}
+                  {`[      01,       00,       10,       11]`}
                 </code>
               </pre>
 
@@ -119,7 +122,7 @@ export default function Info() {
                 in pairs of 4 into 1 bytes each.
               </p>
               <pre>
-                <code>{`...01, ...00, ...10, ...11`} => 01001011</code>
+                <code>{`[...01, ...00, ...10, ...11]`} => 01001011</code>
               </pre>
 
               <strong>Step 5:</strong>
@@ -146,7 +149,7 @@ export default function Info() {
 
               <strong>Step 2:</strong>
               <p>
-                Each byte is cut into 4 bit-pairs.
+                Each byte is cut into 4*2 bits
               </p>
               <pre><code>01100001 => {`01, 10, 00, 01`}</code></pre>
 
@@ -167,13 +170,15 @@ export default function Info() {
 
               <strong>Step 4:</strong>
               <p>
-                The new byte data (with the message injected) is cast to the
-                <em>red, green, blue and alpha</em>
-                channels' integer values. The resulting objects can then be
-                drawn onto the canvas as pixels of the new, steganographic
-                image.
+                The new byte data (with the message injected) is cast to
+                the&nbsp;
+                <em>
+                  red, green, blue and alpha
+                </em>&nbsp;channels' integer values. The resulting objects can
+                then be drawn onto the canvas as pixels of the new,
+                steganographic image.
               </p>
-              <pre><code>{`125, 50, 208, 253`}</code></pre>
+              <pre><code>{`[125, 50, 208, 253]`}</code></pre>
 
               <strong>Note:</strong>
               <p>
@@ -186,9 +191,9 @@ export default function Info() {
               <pre>
                 <code>
                   original: <div className="pixel" id="p1"></div>
-                  {`125, 48, 210, 255`}
+                  {`[125, 48, 210, 255]`}
                   <br />new: <div className="pixel" id="p2"></div>
-                  {`125, 50, 208, 253`}
+                  {`[125, 50, 208, 253]`}
                 </code>
               </pre>
             </div>

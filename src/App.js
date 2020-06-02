@@ -1,6 +1,8 @@
 import React from "react";
 import i18next from "i18next";
 import { BrowserRouter, Route } from "react-router-dom";
+import "noty/lib/noty.css";
+import "noty/lib/themes/nest.css";
 import "./App.css";
 import HomePage from "./pages/Home";
 import ComparisonPage from "./pages/Comparison";
@@ -18,8 +20,6 @@ const pages = [
   // TODO: unused Stats page?
   // { name: "stats", path: "stats" },
 ];
-
-console.log(translations);
 
 export default function App(props) {
   const [translator, setTranslator] = React.useState(() => fallbackTranslator);

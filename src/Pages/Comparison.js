@@ -38,7 +38,7 @@ export default class Comparison extends Component {
       this.setState({ processActive: false, progress: 0 });
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "error",
         layout: "topRight",
         text: t("notification:error_noty", { message: e.data.error }),
@@ -68,7 +68,7 @@ export default class Comparison extends Component {
       this._resultCanvas.scale("in");
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "success",
         layout: "topRight",
         text: t("notification:diffing_finished", { time: e.data.done }),

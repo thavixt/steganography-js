@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import FileSaver from "file-saver";
 import Noty from "noty";
-import "noty/lib/noty.css";
-import "noty/lib/themes/semanticui.css";
 import LangContext from "../context/LangContext";
 import CanvasSection from "../compontens/CanvasSection/CanvasSection";
 import TextAreaSection from "../compontens/TextAreaSection/TextAreaSection";
@@ -57,7 +55,7 @@ export default class Home extends Component {
       this.setState({ progress: 0 });
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "error",
         layout: "topRight",
         text: t("notification:error_noty", { message: e.data.error }),
@@ -113,7 +111,7 @@ export default class Home extends Component {
       }
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "success",
         layout: "topRight",
         text: t("notification:decoding_finished", { time: e.data.done }),
@@ -139,7 +137,7 @@ export default class Home extends Component {
       // Check if the image is at least 4*4 pixels to perform LSB steganography on
       if ((params.image.height < 2) || (params.image.width < 2)) {
         new Noty({
-          theme: "semanticui",
+          theme: "nest",
           type: "error",
           layout: "topRight",
           text: t("notification:source_size_too_small"),
@@ -175,7 +173,7 @@ export default class Home extends Component {
       this.setState({ progress: 0 });
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "error",
         layout: "topRight",
         text: t("notification:error_noty", { message: e.data.error }),
@@ -206,7 +204,7 @@ export default class Home extends Component {
       this._sourceCanvas.scale("in");
 
       new Noty({
-        theme: "semanticui",
+        theme: "nest",
         type: "success",
         layout: "topRight",
         text: t("notification:encoding_finished", { time: e.data.done }),
