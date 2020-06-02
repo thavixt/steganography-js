@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App.js";
-// import registerServiceWorker from './registerServiceWorker';
+//import * as serviceWorker from './serviceWorker';
 
 const basePath = process.env.NODE_ENV === "production"
   ? "/projects/steganography-js/"
@@ -63,7 +63,7 @@ const check = () => {
 
   ReactDOM.render(<App basePath={basePath} />, document.getElementById("root"));
 
-  // registerServiceWorker();
+  // serviceWorker.register();
 };
 
 check();

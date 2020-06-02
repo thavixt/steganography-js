@@ -27,7 +27,7 @@ export default function App(props) {
   React.useEffect(() => {
     i18next.init({
       lng: "en",
-      debug: true,
+      // debug: true,
       resources: translations,
     }).then((t) => {
       setTranslator(() => t);
