@@ -1,8 +1,12 @@
+:root {
+    --accent: #d81b60;
+    --hover: white;
+}
 
 .App-header {
   padding: 1em 2em 0.5em 2em;
   margin-bottom: 1em;
-  border-bottom: 0.5em solid #ffeb3b;
+  border-bottom: 0.5em solid var(--accent);
 }
 
 .App-title {
@@ -28,29 +32,17 @@
   text-transform: lowercase;
 }
 .App-links a.active {
-  background-color: #ffeb3b;
-  color: #9c27b0;
+  background-color: var(--accent);
+  color: var(--hover);
 }
 .App-links a:hover {
-  background-color: #ffeb3b;
-  color: #9c27b0;
+  background-color: var(--accent);
+  color: var(--hover);
 }
-/* .App-links a::after {
-  content: " / ";
-} */
 .App-links a::before {
   content: "/ ";
   font-weight: bold;
 }
-
-#roll-intro {
-  /* color: #D3D3D3; */
-}
-#roll-intro:hover {
-  /* color: #D3D3D3; */
-  /* background-color: initial; */
-}
-
 
 @media (max-width: 760px) {
   .App-header {

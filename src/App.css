@@ -1,160 +1,140 @@
-:root {/* store CSS variables here */}
+:root {
+    --accent: #d81b60;
+}
+
 html {
-  box-sizing: border-box;
-  background: whitesmoke;
+    box-sizing: border-box;
+    background: whitesmoke;
 }
 body {}
+blockquote {
+    border-left: 5px solid var(--accent);
+}
+pre {
+    background-color: rgb(220, 220, 220);
+    padding: 0.5em;
+    overflow-x: auto;
+}
+code {
+    font-size: 0.9em;
+}
+table.highlight>tbody>tr:hover {
+    background-color: rgba(255, 235, 59, 0.2);
+}
 
-
-/* Basic app styling */
-#root {}
 .App {
-  min-height: 100vh;
-  display: flex;                   /* defines flexbox */
-  flex-direction: column;          /* top to bottom */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 .App-main {
-  margin-bottom: auto;
+    margin-bottom: auto;
 }
-
 .App-content {
-  max-width: 900px;
-  margin: auto;
-  padding: 0 2em;  
+    max-width: 900px;
+    margin: auto;
+    padding: 0 2em;  
 }
-
 .App-progress {
-  margin: 1em 0 0 0;
+    margin: 1em 0 0 0;
 }
 
 
-
-/* Grid layout */
 #grid-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2em;
 }
 #grid-wrapper > div {
-  width: 100%;
+    width: 100%;
 }
 @media (max-width: 720px) {
-  #grid-wrapper {
-    grid-template-columns: none;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 0;
-  }
+    #grid-wrapper {
+        grid-template-columns: none;
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 0;
+    }
 }
 
 #grid-wrapper-vertical > div {
-  width: 100%;
+    width: 100%;
 }
 #grid-wrapper-vertical {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 @media (max-width: 720px) {
-  #grid-wrapper-vertical {
-    display: block;
-  }
+    #grid-wrapper-vertical {
+        display: block;
+    }
 }
-
-
 
 /* Left-right sections - grid elements */
 .section-title {
-  font-family: monospace;
+    font-family: monospace;
 }
 .section-content {
-  margin: 0 auto;
+    margin: 0 auto;
 }
 .section-content > label{
-  display: block;
-  text-align: center;
+    display: block;
+    text-align: center;
 }
 .section-actions {
-  margin: 1em;
-  text-align: center;
+    margin: 1em;
+    text-align: center;
 }
 .section-actions button {
-  margin: 0 1em;
-  text-transform: capitalize;
+    margin: 0 1em;
+    text-transform: capitalize;
 }
-
-
-
 
 /* Radio input */
 .radio-label {
-  padding-left: 1em;
+    padding-left: 1em;
 }
 [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
-  background-color: #4a148c !important;
+    background-color: var(--accent) !important;
 }
 [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
-  background-color: #4a148c !important;
-  border: 2px solid #4a148c !important;
+    background-color: var(--accent) !important;
+    border: 2px solid var(--accent) !important;
 }
 
-
-
-/* MISC */
-
-/* table highlight */
-table.highlight>tbody>tr:hover {
-  background-color: rgba(255, 235, 59, 0.2);
-}
-/* qoute left border */
-blockquote {
-  border-left: 5px solid #651fff;
-}
-/* code snippets */
-pre {
-  background-color: rgb(220, 220, 220);
-  padding: 0.5em;
-  overflow-x: auto;
-}
-code {
-  font-size: 0.9em;
-}
-/* Output mode selector */
 .output-selector {
-  text-align: center;
+    text-align: center;
 }
-/* cols on the info page */
 @media (min-width: 601px) {
-  .how > .row > .col.s12.m6:first-child {
-    padding: 0 1.5rem 0 0;
-  }
-  .how > .row > .col.s12.m6:last-child {
-    padding: 0 0 0 1.5rem;
-  }
+    .how > .row > .col.s12.m6:first-child {
+        padding: 0 1.5rem 0 0;
+    }
+    .how > .row > .col.s12.m6:last-child {
+        padding: 0 0 0 1.5rem;
+    }
 }
-/* comparison pixel on the Info page */
 .pixel {
-  width: 2em;
-  height: 2em;
-  display: inline-block;
-  transform: translateY(7px);
+    margin-right: 5px;
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    transform: translateY(7px);
 }
 #p1 {
-  background-color: rgba(128, 48, 210, 255);
+    background-color: rgba(128, 48, 210, 255);
 }
 #p2 {
-  background-color: rgba(125, 50, 208, 253);
+    background-color: rgba(125, 50, 208, 253);
 }
-/* image-text output selector */
 .output-selector {
-  margin: 0 0 1em 0;
+    margin: 0 0 1em 0;
 }
-/* div spacing helper */
 .pad-top {
-  /* padding-top: 2em; */
+    /* padding-top: 2em; */
 }
-/* Noty.js button container */
+
 .noty_buttons > button {
-  margin-left: 1em;
+    margin-left: 1em;
 }
 
 

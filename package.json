@@ -1,27 +1,36 @@
 {
-  "name": "steganography-js",
-  "version": "0.1.0",
-  "homepage": "http://komlosidev.net/projects/steganography-js",
-  "private": true,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "start-build": "serve -s build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "dependencies": {
-    "file-saver": "^2.0.2",
-    "funnies": "^2.1.0",
-    "history": "^4.10.1",
-    "intro.js": "^2.9.3",
-    "noty": "^3.2.0-beta",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.1"
-  },
-  "devDependencies": {
-    "worker-loader": "^2.0.0"
-  }
+    "name": "steganography-js",
+    "version": "0.2.0",
+    "homepage": "http://komlosidev.net/projects/steganography-js",
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "start-build": "serve -s build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject",
+        "get-translations": "node get_translations.js"
+    },
+    "dependencies": {
+        "file-saver": "^2.0.2",
+        "noty": "^3.2.0-beta",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "^3.4.1"
+    },
+    "devDependencies": {
+        "worker-loader": "^2.0.0"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

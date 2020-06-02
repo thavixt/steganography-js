@@ -1,5 +1,5 @@
 .App-footer {
-  border-top: 0.5em solid #ffeb3b;
+  border-top: 0.5em solid #d81b60;
   margin-top: 3em;
 }
 .App-footer a {
@@ -8,5 +8,5 @@
   transition: text-shadow 0.15s ease;
 }
 .App-footer a:hover {
-  color: white;
+  color: white !important;
 }
