@@ -1,3 +1,5 @@
+// @ts-nocheck
+// eslint-disable
 /**
  * Compare two images pixel-by-pixel and return an image with the differing pixels highlighted
  * @param {{buffer: ArrayBuffer, width: number, height: number}} firstImage 

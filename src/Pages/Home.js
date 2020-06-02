@@ -5,10 +5,6 @@ import LangContext from "../context/LangContext";
 import CanvasSection from "../compontens/CanvasSection/CanvasSection";
 import TextAreaSection from "../compontens/TextAreaSection/TextAreaSection";
 import ProgressBar from "../compontens/ProgressBar/ProgressBar";
-/* eslint-disable */
-import decoderWorker from "worker-loader!../workers/decoder.worker";
-import encodeWorker from "worker-loader!../workers/encoder.worker";
-/* eslint-enable */
 
 export default class Home extends Component {
   constructor(props) {
@@ -151,7 +147,10 @@ export default class Home extends Component {
       ? this._resultCanvas.scale("out")
       : this._resultTextArea.resetState();
     this.setState({ processActive: true });
-    this.decoder = new decoderWorker();
+    this.decoder = new Worker(
+      `${process.env.PUBLIC_URL}/workers/decoder.worker.js`,
+    );
+
     this.decoder.onmessage = this.onDecoderMessage.bind(this);
     // Pass payload to the decoder worker
     this.decoder.postMessage({
@@ -268,7 +267,10 @@ export default class Home extends Component {
 
     this._sourceCanvas.scale("out");
     this.setState({ processActive: true });
-    this.encoder = new encodeWorker();
+    this.encoder = new Worker(
+      `${process.env.PUBLIC_URL}/workers/encoder.worker.js`,
+    );
+
     this.encoder.onmessage = this.onEncoderMessage.bind(this);
     // Pass payload to the encoder worker
     this.encoder.postMessage({

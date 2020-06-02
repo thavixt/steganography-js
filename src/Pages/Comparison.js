@@ -4,8 +4,6 @@ import LangContext from "../context/LangContext";
 import CanvasSection from "../compontens/CanvasSection/CanvasSection";
 import ColorSelector from "../compontens/ColorSelector/ColorSelector";
 import ProgressBar from "../compontens/ProgressBar/ProgressBar";
-/* eslint-disable-next-line */
-import differWorker from "worker-loader!../workers/differ.worker";
 
 export default class Comparison extends Component {
   constructor(props) {
@@ -124,9 +122,10 @@ export default class Comparison extends Component {
 
     this._resultCanvas.scale("out");
 
-    // Instantiate a new worker
     this.setState({ processActive: true });
-    this.differ = new differWorker();
+    this.differ = new Worker(
+      `${process.env.PUBLIC_URL}/workers/differ.worker.js`,
+    );
     // Set handler
     this.differ.onmessage = this.onDifferMessage.bind(this);
     // Start process

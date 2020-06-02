@@ -1,3 +1,5 @@
+// @ts-nocheck
+// eslint-disable
 /**
  * Steganographic decoder function running in a Web Worker (separate thread).
  * 

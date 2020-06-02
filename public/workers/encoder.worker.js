@@ -1,3 +1,5 @@
+// @ts-nocheck
+// eslint-disable
 /**
  * Steganographic encoder function running in a Web Worker (separate thread).
  * 
@@ -176,14 +178,18 @@ function encodeImage(source, payload) {
   // Set new values
   // Slice into 2x2 pixel chunks
   for (
-    let h = 0; ((h < source.height - 1) && (h < payload.height * 2)); h += 2
+    let h = 0;
+    ((h < source.height - 1) && (h < payload.height * 2));
+    h += 2
   ) { // Step 2 pixels down
     //console.log("H:", h);
     curH = h * source.width * 4;
     w = 0; // Go back to the beginning of the row
 
     for (
-      let w = 0; ((w < source.width - 1) && (w < payload.width * 2)); w += 2
+      let w = 0;
+      ((w < source.width - 1) && (w < payload.width * 2));
+      w += 2
     ) { // Step 2 pixels right
       // Process the next 2x2 pixel block
       //console.log("w:", w);
