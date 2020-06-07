@@ -23,14 +23,18 @@ TODO: further implementation info & links
 
 ## TODOs / idea list
 
-- [x] refactor React components, update dependencies - in progress
-- [x] internationalization with i18next - in progress
-- [ ] refactor worker files
+- [x] refactor React components, update dependencies
+- [x] internationalization with i18next
+- [x] use Sass
+- [ ] refactor worker files - in progress
+  - [ ] extact logic from workers with `importScripts` ?
+    - https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts
 - [ ] migrate to Typescript
+  - [ ] find a way to compline workers without 'ejecting' the project
+    - independent tsc workflow for the `workers` folder?
 - [ ] new formats
     - [ ] research audio steganography
-- [ ] Electron/Webview app ?
-- [ ] PWA ?
+- [ ] separate Electron/Webview app ?
 
 ## Further reading - links & notes
 
