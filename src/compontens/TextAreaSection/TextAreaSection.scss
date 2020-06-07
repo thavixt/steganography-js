@@ -1,0 +1,14 @@
+.TextAreaSelection .textarea {
+    font-size: 1em !important;
+    font-family: monospace;
+    height: 18em !important;
+    min-width: 20em !important;
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+}
+
+.TextAreaSelection textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #9c27b0;
+    -webkit-box-shadow: 0 1px 0 0 #9c27b0;
+    box-shadow: 0 1px 0 0 #9c27b0;
+}

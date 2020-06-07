@@ -1,0 +1,14 @@
+@import "../../variables";
+
+.App-footer {
+    border-top: 0.5em solid $accent;
+    margin-top: 3em;
+}
+.App-footer a {
+    color: inherit;
+    text-decoration: underline;
+    transition: text-shadow 0.15s ease;
+}
+.App-footer a:hover {
+    color: white !important;
+}

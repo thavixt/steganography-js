@@ -6,10 +6,11 @@
         "common": {
             "clear": "Clear",
             "compare": "Compare",
-            "download": "Download",
             "difference": "Difference",
+            "download": "Download",
             "image": "Image",
             "mode": "Mode",
+            "payload": "Payload",
             "text": "Text"
         },
         "comparison": {
@@ -18,8 +19,7 @@
             "second_image": "Second image"
         },
         "footer": {
-            "inspired_by": "Inspired by Computerphile's video",
-            "built_with": "Build with"
+            "inspired_by": "Inspired by Computerphile's video"
         },
         "image_input": {
             "select_file": "Select an image file (preferably .bmp/.png)"

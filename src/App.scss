@@ -1,23 +1,35 @@
-:root {
-    --accent: #d81b60;
-}
+@import "/variables";
 
 html {
     box-sizing: border-box;
     background: whitesmoke;
 }
-body {}
+
 blockquote {
-    border-left: 5px solid var(--accent);
+    border-left: 5px solid $accent;
+}
+canvas {
+	margin: auto;
+    display: block;
+  
+    height: 250px;
+    min-height: 150px;
+    max-height: 100%;
+  
+	max-width: 100%;
+
+    background-color: white;
+    border: 1px dotted teal;
+}
+code {
+    font-size: 0.9em;
 }
 pre {
     background-color: rgb(220, 220, 220);
     padding: 0.5em;
     overflow-x: auto;
 }
-code {
-    font-size: 0.9em;
-}
+
 table.highlight>tbody>tr:hover {
     background-color: rgba(255, 235, 59, 0.2);
 }
@@ -32,14 +44,13 @@ table.highlight>tbody>tr:hover {
     margin-bottom: auto;
 }
 .App-content {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
     padding: 0 2em;  
 }
 .App-progress {
     margin: 1em 0 0 0;
 }
-
 
 #grid-wrapper {
     display: grid;
@@ -94,13 +105,19 @@ table.highlight>tbody>tr:hover {
 /* Radio input */
 .radio-label {
     padding-left: 1em;
+    span {
+        padding-left: 30px !important;
+    }
 }
-[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
-    background-color: var(--accent) !important;
+[type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:after {
+    background-color: $accent !important;
 }
-[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
-    background-color: var(--accent) !important;
-    border: 2px solid var(--accent) !important;
+[type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:before,
+[type="radio"].with-gap:checked+span:after {
+    background-color: $accent !important;
+    border: 2px solid $accent !important;
 }
 
 .output-selector {
@@ -130,12 +147,7 @@ table.highlight>tbody>tr:hover {
 .output-selector {
     margin: 0 0 1em 0;
 }
-.pad-top {
-    /* padding-top: 2em; */
-}
 
 .noty_buttons > button {
     margin-left: 1em;
 }
-
-
