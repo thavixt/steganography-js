@@ -10,6 +10,7 @@
 /build
 
 # misc
+.env
 .vscode
 .DS_Store
 .env.local
@@ -20,5 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-.env

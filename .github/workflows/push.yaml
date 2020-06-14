@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          BASE_PATH: /steganography-js/
+          REACT_APP_BASE_PATH: /steganography-js/
           SASS_PATH: node_modules:src
       - name: Publish gh-pages
         uses: crazy-max/ghaction-github-pages@v1
