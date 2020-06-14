@@ -32,7 +32,7 @@ export default function App(props) {
     }, []);
 
     if (!translator) {
-        return "loading...";
+        return <p>loading...</p>;
     }
 
     return (

@@ -5,7 +5,7 @@ import App from "./App.js";
 //import * as serviceWorker from './serviceWorker';
 
 const basePath = process.env.NODE_ENV === "production"
-    ? "/projects/steganography-js/"
+    ? process.env.BASE_PATH
     : "/";
 
 /** 

@@ -22,6 +22,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          BASE_PATH: /
           SASS_PATH: node_modules:src
       - name: Publish gh-pages
         uses: crazy-max/ghaction-github-pages@v1
