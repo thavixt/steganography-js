@@ -5,7 +5,7 @@ import App from "./App.js";
 //import * as serviceWorker from './serviceWorker';
 
 const basePath = process.env.NODE_ENV === "production"
-    ? process.env.BASE_PATH
+    ? process.env.REACT_APP_BASE_PATH
     : "/";
 
 /** 
