@@ -1,7 +1,6 @@
 {
     "name": "steganography-js",
     "version": "0.2.0",
-    "homepage": "http://komlosidev.net/projects/steganography-js",
     "repository": "https://github.com/thavixt/steganography-js-react",
     "license": "MIT",
     "dependencies": {

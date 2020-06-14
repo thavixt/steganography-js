@@ -29,7 +29,7 @@ export default function Footer() {
                 <div className="container pink-text text-darken-1">
                     <a
                         className="pink-text text-darken-1 right"
-                        href="https://github.com/thavixt/steganography-js-react"
+                        href="https://github.com/thavixt/steganography-js"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
