@@ -3,6 +3,7 @@
     "version": "0.2.0",
     "repository": "https://github.com/thavixt/steganography-js-react",
     "license": "MIT",
+    "homepage": "https://thavixt.github.io/steganography-js",
     "dependencies": {
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
