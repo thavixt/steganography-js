@@ -1,3 +1,5 @@
+![gh-pages](https://github.com/thavixt/steganography-js-react/workflows/gh-pages/badge.svg)
+
 # Steganography.js
 
 ## Introduction
