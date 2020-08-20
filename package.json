@@ -9,7 +9,7 @@
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
         "file-saver": "^2.0.2",
-        "i18next": "^19.4.5",
+        "i18next": "^19.7.0",
         "node-sass": "^4.14.1",
         "noty": "^3.2.0-beta",
         "react": "^16.13.1",
