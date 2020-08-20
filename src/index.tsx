@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App.js";
+import App from "./App";
 //import * as serviceWorker from './serviceWorker';
 
 const basePath = process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_BASE_PATH
+    ? process.env.REACT_APP_BASE_PATH as string
     : "/";
 
 /** 
@@ -28,7 +28,7 @@ const check = () => {
     }
     // The below checks are only really important for mobile use:
     // Check for at least 1GB usable memory (important for big image files)
-    if (navigator.deviceMemory < 2) {
+    if (navigator.deviceMemory && navigator.deviceMemory < 2) {
         console.warn("Low device memory detected:", navigator.deviceMemory + "GB");
     }
     // Check for at least 3 cores / threads (main + 2 workers)

@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 
-export default function Header(props) {
-    const [currentPath, setCurrentPath] = React.useState(props.basePath);
+interface LinkObject {
+    path: string;
+    name: string;
+}
 
-    const links = props.links.map((value, i) =>
+interface Props {
+    basePath: string;
+    links: LinkObject[];
+}
+
+export default function Header(props: Props) {
+    const [currentPath, setCurrentPath] = useState(props.basePath);
+
+    const links = props.links.map((value: LinkObject, i: number) =>
         <Link
             key={i}
             to={props.basePath + value.path}

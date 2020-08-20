@@ -1,32 +1,46 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import LangContext from "../../context/LangContext";
 import "./TextAreaSection.scss";
 
-export default class TextAreaSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
+interface Props {
+    clear?: any;
+    id?: string;
+    isAProcessActive?: boolean;
+    sourceFileLoaded?: boolean;
+    processName?: ProcessType;
+    onFileLoaded?(bool: boolean, fileName: string): void;
+    process?(args: { process: string, text: TextPayload }): void;
+}
+
+export default class TextAreaSection extends Component<Props> {
+    _textArea = createRef<HTMLTextAreaElement>();
+
+    resetState = () => {
+        if (this._textArea.current) {
+            this._textArea.current.value = "";
+        }
     }
 
-    resetState() {
-        this._textArea.value = "";
+    setText = (text: string) => {
+        if (this._textArea.current) {
+            this._textArea.current.value = text;
+        }
     }
 
-    setText(text) {
-        this._textArea.value = text;
-    }
-
-    handleProcess() {
-        const string = JSON.stringify(this._textArea.value);
+    handleProcess = () => {
+        const string = JSON.stringify(this._textArea.current?.value);
         const uint8_array = new TextEncoder().encode(string);
         const payload = uint8_array.buffer;
-        this.props.process({
-            process: this.props.processName,
-            text: {
-                buffer: payload,
-                length: string.length,
-            },
-        });
+
+        if (this.props.process && this.props.processName) {
+            this.props.process({
+                process: this.props.processName,
+                text: {
+                    buffer: payload,
+                    length: string.length,
+                },
+            });
+        }
     }
 
     render() {
@@ -45,7 +59,7 @@ export default class TextAreaSection extends Component {
                     <textarea
                         className="materialize-textarea textarea"
                         id={this.props.id + "-text"}
-                        ref={(ref) => this._textArea = ref}
+                        ref={this._textArea}
                     >
                     </textarea>
                     <span>

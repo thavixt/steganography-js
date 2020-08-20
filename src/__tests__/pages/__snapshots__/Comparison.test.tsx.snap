@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Comparison 1`] = `
+<div
+  className="App-content pad-top"
+>
+  <div
+    className="App-progress"
+    id=""
+  >
+    <div
+      className="progress-indicator-wrapper"
+    >
+      <div
+        className="grey darken-4 progress-indicator "
+        style={
+          Object {
+            "width": "0%",
+          }
+        }
+      />
+    </div>
+    <label
+      className="progress-description "
+    >
+      <span>
+        {progress_bar:perf_info}
+      </span>
+    </label>
+  </div>
+  <div
+    id="grid-wrapper-vertical"
+  >
+    <div
+      className="grid-element"
+      id="first-section"
+      style={
+        Object {
+          "gridColumnStart": 1,
+        }
+      }
+    >
+      <h5
+        className="section-title"
+      >
+        {comparison:first_image}
+      </h5>
+      <div
+        className="CanvasSelection"
+      >
+        <div>
+          <label
+            className="label"
+            htmlFor="first-image-input"
+          >
+            {image_input:select_file}
+          </label>
+          <br />
+          <input
+            id="first-image-input"
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <br />
+        <div
+          className="section-content scale-transition scale-initial"
+          hidden={true}
+        >
+          <label
+            className="label"
+            htmlFor="first-image-canvas"
+          >
+            Image
+          </label>
+          <canvas
+            id="first-image-canvas"
+          />
+        </div>
+        <div
+          className="section-actions secondary"
+        />
+        <div
+          className="section-actions"
+        />
+      </div>
+    </div>
+    <div
+      className="grid-element"
+      id="second-section"
+      style={
+        Object {
+          "gridColumnStart": 1,
+        }
+      }
+    >
+      <h5
+        className="section-title"
+      >
+        {comparison:second_image}
+      </h5>
+      <div
+        className="CanvasSelection"
+      >
+        <div>
+          <label
+            className="label"
+            htmlFor="second-image-input"
+          >
+            {image_input:select_file}
+          </label>
+          <br />
+          <input
+            id="second-image-input"
+            onChange={[Function]}
+            type="file"
+          />
+        </div>
+        <br />
+        <div
+          className="section-content scale-transition scale-initial"
+          hidden={true}
+        >
+          <label
+            className="label"
+            htmlFor="second-image-canvas"
+          >
+            Image
+          </label>
+          <canvas
+            id="second-image-canvas"
+          />
+        </div>
+        <div
+          className="section-actions secondary"
+        />
+        <div
+          className="section-actions"
+        />
+      </div>
+    </div>
+    <div
+      className="grid-element"
+      id="highlight-section"
+      style={
+        Object {
+          "gridColumnStart": 1,
+        }
+      }
+    >
+      <h5
+        className="section-title"
+      >
+        {comparison:diff_color}
+      </h5>
+      <div
+        className="color-selector"
+      >
+        {color_selector:select_color}
+        :
+        <input
+          defaultValue="#651fff"
+          onChange={[Function]}
+          type="color"
+        />
+        <span
+          className="color-selector-preview"
+          style={
+            Object {
+              "backgroundColor": "rgba(101,31,255,255)",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="grid-element"
+      id="result-section"
+      style={
+        Object {
+          "gridColumnStart": 2,
+          "gridRow": "1 / span 4",
+        }
+      }
+    >
+      <h5
+        className="section-title"
+      >
+        {common:difference}
+      </h5>
+      <div
+        className="CanvasSelection"
+      >
+        <br />
+        <div
+          className="section-content scale-transition scale-initial"
+        >
+          <label
+            className="label"
+            htmlFor="result-image-canvas"
+          >
+            Image
+          </label>
+          <canvas
+            id="result-image-canvas"
+          />
+        </div>
+        <div
+          className="section-actions secondary"
+        />
+        <div
+          className="section-actions"
+        />
+      </div>
+      <div
+        className="section-actions"
+      >
+        <button
+          className="waves-effect waves-light btn grey darken-4"
+          disabled={true}
+          onClick={[Function]}
+          style={
+            Object {
+              "margin": "auto",
+            }
+          }
+        >
+          {common:compare}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

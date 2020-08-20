@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders CanvasSection 1`] = `
+<div
+  className="CanvasSelection"
+>
+  <div>
+    <label
+      className="label"
+      htmlFor="undefined-input"
+    >
+      {image_input:select_file}
+    </label>
+    <br />
+    <input
+      id="undefined-input"
+      onChange={[Function]}
+      type="file"
+    />
+  </div>
+  <br />
+  <div
+    className="section-content scale-transition scale-initial"
+  >
+    <label
+      className="label"
+      htmlFor="undefined-canvas"
+    >
+      Image
+    </label>
+    <canvas
+      id="undefined-canvas"
+    />
+  </div>
+  <div
+    className="section-actions secondary"
+  />
+  <div
+    className="section-actions"
+  />
+</div>
+`;

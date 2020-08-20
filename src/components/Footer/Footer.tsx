@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import LangContext from "../../context/LangContext";
 import "./Footer.scss";
 
 export default function Footer() {
-    const t = React.useContext(LangContext);
+    const t = useContext(LangContext);
 
     return (
         <footer className="App-footer grey darken-4 page-footer">

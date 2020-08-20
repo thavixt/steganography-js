@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import LangContext from "../../context/LangContext";
 import "./ProgressBar.scss";
 
-export default function ProgressBar(props) {
-    const t = React.useContext(LangContext);
+interface Props {
+    id?: string;
+    active: boolean;
+    progress: number;
+}
+
+export default function ProgressBar(props: Props) {
+    const t = useContext(LangContext);
 
     return (
         <div className="App-progress" id={props.id || ""}>

@@ -1,31 +1,41 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import Noty from "noty";
 import LangContext from "../context/LangContext";
-import CanvasSection from "../compontens/CanvasSection/CanvasSection";
-import ColorSelector from "../compontens/ColorSelector/ColorSelector";
-import ProgressBar from "../compontens/ProgressBar/ProgressBar";
+import CanvasSection from "../components/CanvasSection/CanvasSection";
+import ColorSelector from "../components/ColorSelector/ColorSelector";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
 
-export default class Comparison extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            processActive: false,
-            progress: 0,
-            firstFile: "",
-            secondFile: "",
-        };
-        this.differ = null;
+interface State {
+    processActive: boolean,
+    progress: number,
+    firstFile: boolean,
+    secondFile: boolean,
+}
+
+export default class Comparison extends Component<{}, State> {
+    _resultCanvas = createRef<CanvasSection>();
+    _colorSelector = createRef<ColorSelector>();
+    _firstImage = createRef<CanvasSection>();
+    _secondImage = createRef<CanvasSection>();
+
+    state = {
+        processActive: false,
+        progress: 0,
+        firstFile: false,
+        secondFile: false,
+    };
+
+    differ: Worker | null = null;
+
+    firstFileLoaded = (bool: boolean, name: string) => {
+        this.setState({ firstFile: bool });
     }
 
-    firstFileLoaded(bool, name) {
-        this.setState({ firstFile: true });
+    secondFileLoaded = (bool: boolean, name: string) => {
+        this.setState({ secondFile: bool });
     }
 
-    secondFileLoaded(bool, name) {
-        this.setState({ secondFile: true });
-    }
-
-    onDifferMessage(e, transferList) {
+    onDifferMessage = (e: MessageEvent) => {
         const t = this.context;
 
         if (e.data.progressBar) {
@@ -47,23 +57,23 @@ export default class Comparison extends Component {
         if (e.data.done) {
             this.setState({ progress: 100 });
 
-            let fileName = "diff_stegojs_" + (Math.random() * 10000).toFixed();
+            const fileName = "diff_stegojs_" + (Math.random() * 10000).toFixed();
 
             // Image mode result
             // Create a TypedArray from the transferred ArrayBuffer
-            let typed = new Uint8ClampedArray(e.data.result.buffer);
+            const typed = new Uint8ClampedArray(e.data.result.buffer);
             // Create an ImageData object to draw to the canvas
-            let resultImage = new ImageData(
+            const resultImage = new ImageData(
                 typed,
                 e.data.result.width,
                 e.data.result.height,
             );
             // Draw the new image
-            this._resultCanvas.updateImage(
+            this._resultCanvas.current?.updateImage(
                 resultImage,
                 fileName + ".bmp",
             );
-            this._resultCanvas.scale("in");
+            this._resultCanvas.current?.scale("in");
 
             new Noty({
                 theme: "nest",
@@ -73,8 +83,10 @@ export default class Comparison extends Component {
                 timeout: 5000,
             }).show();
 
-            this.differ.terminate();
-            this.differ = null;
+            if (this.differ) {
+                this.differ.terminate();
+                this.differ = null;
+            }
 
             setTimeout(() => {
                 this.setState({ processActive: false, progress: 0 });
@@ -82,24 +94,24 @@ export default class Comparison extends Component {
         }
     }
 
-    diff() {
-        this._resultCanvas.resetState();
+    diff = () => {
+        this._resultCanvas.current?.resetState();
 
         // Get the first image
-        let canvas = document.getElementById("first-image-canvas");
-        let ctx = canvas.getContext("2d");
-        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let firstImage = {
+        const canvas = document.getElementById("first-image-canvas") as HTMLCanvasElement;
+        const ctx = canvas.getContext("2d")!;
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const firstImage: ImagePayload = {
             buffer: imageData.data.buffer,
             width: canvas.width,
             height: canvas.height,
         };
 
         // Get the second image
-        let canvas2 = document.getElementById("second-image-canvas");
-        let ctx2 = canvas2.getContext("2d");
-        let imageData2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
-        let secondImage = {
+        const canvas2 = document.getElementById("second-image-canvas") as HTMLCanvasElement;
+        const ctx2 = canvas2.getContext("2d")!;
+        const imageData2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
+        const secondImage: ImagePayload = {
             buffer: imageData2.data.buffer,
             width: canvas2.width,
             height: canvas2.height,
@@ -109,24 +121,21 @@ export default class Comparison extends Component {
         const payload = {
             process: "diff",
             mode: "image",
-            diffColor: this._colorSelector.getColor(),
+            diffColor: this._colorSelector.current?.getColor(),
             first: firstImage,
             second: secondImage,
         };
         const transferList = [firstImage.buffer, secondImage.buffer];
 
-        this._resultCanvas.scale("out");
+        this._resultCanvas.current?.scale("out");
 
         this.setState({ processActive: true });
-        this.differ = new Worker(
-            `${process.env.PUBLIC_URL}/workers/differ.worker.js`,
-        );
-        this.differ.onmessage = this.onDifferMessage.bind(this);
+        this.differ = new Worker(`${process.env.PUBLIC_URL}/workers/differ.worker.js`);
+        this.differ.onmessage = this.onDifferMessage;
         this.differ.postMessage(payload, transferList);
     }
 
     render() {
-        const t = this.context;
         return (
             <div className="App-content pad-top">
                 <ProgressBar
@@ -139,9 +148,9 @@ export default class Comparison extends Component {
                         id="first-section"
                         style={{ gridColumnStart: 1 }}
                     >
-                        <h5 className="section-title">{t("comparison:first_image")}</h5>
+                        <h5 className="section-title">{this.context("comparison:first_image")}</h5>
                         <CanvasSection
-                            ref={(ref) => this._firstImage = ref}
+                            ref={this._firstImage}
                             id="first-image"
                             onFileLoaded={(bool, name) => this.firstFileLoaded(bool, name)}
                             isAProcessActive={this.state.processActive}
@@ -153,11 +162,11 @@ export default class Comparison extends Component {
                         id="second-section"
                         style={{ gridColumnStart: 1 }}
                     >
-                        <h5 className="section-title">{t("comparison:second_image")}</h5>
+                        <h5 className="section-title">{this.context("comparison:second_image")}</h5>
                         <CanvasSection
-                            ref={(ref) => this._secondImage = ref}
+                            ref={this._secondImage}
                             id="second-image"
-                            sourceFileLoaded="true"
+                            sourceFileLoaded={true}
                             onFileLoaded={(bool, name) => this.secondFileLoaded(bool, name)}
                             isAProcessActive={this.state.processActive}
                             hideCanvas
@@ -168,8 +177,8 @@ export default class Comparison extends Component {
                         id="highlight-section"
                         style={{ gridColumnStart: 1 }}
                     >
-                        <h5 className="section-title">{t("comparison:diff_color")}</h5>
-                        <ColorSelector ref={(ref) => this._colorSelector = ref} />
+                        <h5 className="section-title">{this.context("comparison:diff_color")}</h5>
+                        <ColorSelector ref={this._colorSelector} />
                     </div>
 
                     <div
@@ -177,10 +186,9 @@ export default class Comparison extends Component {
                         id="result-section"
                         style={{ gridRow: "1 / span 4", gridColumnStart: 2 }}
                     >
-                        <h5 className="section-title">{t("common:difference")}</h5>
+                        <h5 className="section-title">{this.context("common:difference")}</h5>
                         <CanvasSection
-                            style={{ width: 2 }}
-                            ref={(ref) => this._resultCanvas = ref}
+                            ref={this._resultCanvas}
                             id="result-image"
                             disableInput
                         />
@@ -189,10 +197,10 @@ export default class Comparison extends Component {
                                 className="waves-effect waves-light btn grey darken-4"
                                 disabled={!this.state.firstFile || !this.state.secondFile ||
                                     this.state.processActive}
-                                onClick={() => this.diff()}
+                                onClick={this.diff}
                                 style={{ margin: "auto" }}
                             >
-                                {t("common:compare")}
+                                {this.context("common:compare")}
                             </button>
                         </div>
                     </div>

@@ -103,7 +103,7 @@ export default function Info() {
                                 in pairs of 4 into 1 bytes each.
                             </p>
                             <pre>
-                                <code>{`[...01, ...00, ...10, ...11]`} => 01001011</code>
+                                <code>{`[...01, ...00, ...10, ...11]`} =&gt; 01001011</code>
                             </pre>
 
                             <strong>Step 5:</strong>
@@ -112,7 +112,7 @@ export default function Info() {
                                 appropriate ASCII characters, revealing the steganographic data
                                 hidden in the image (if there is any).
                             </p>
-                            <pre><code>01001011 => 075 => K</code></pre>
+                            <pre><code>01001011 =&gt; 075 =&gt; K</code></pre>
                         </div>
 
                         <div className="col s12 m6">
@@ -126,13 +126,13 @@ export default function Info() {
                                 Each character of the message is converted to the ASCII number
                                 representation of it, then cast to a single byte.
                             </p>
-                            <pre><code>a => 097 => 01100001</code></pre>
+                            <pre><code>a =&gt; 097 =&gt; 01100001</code></pre>
 
                             <strong>Step 2:</strong>
                             <p>
                                 Each byte is cut into 4*2 bits
                             </p>
-                            <pre><code>01100001 => {`01, 10, 00, 01`}</code></pre>
+                            <pre><code>01100001 =&gt; {`01, 10, 00, 01`}</code></pre>
 
                             <strong>Step 3:</strong>
                             <p>

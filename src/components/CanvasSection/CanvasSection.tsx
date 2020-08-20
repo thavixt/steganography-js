@@ -1,47 +1,68 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import FileSaver from "file-saver";
 import LangContext from "../../context/LangContext";
 
-export default class CanvasSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fileName: "",
-            fileLoaded: false,
-            scale: "", // "in" || "out"
-        };
-    }
+type ScalePhase = "in" | "out" | "initial";
 
-    scale(phase) {
+interface Props {
+    clear?: boolean;
+    disableInput?: boolean;
+    download?: any;
+    hideCanvas?: boolean;
+    id?: string;
+    isAProcessActive?: boolean;
+    sourceFileLoaded?: boolean;
+    processName?: ProcessType;
+    onFileLoaded?(bool: boolean, fileName: string): void;
+    process?(args: { process: string, image: ImagePayload }): void;
+}
+
+interface State {
+    fileName: string;
+    fileLoaded: boolean;
+    scale: ScalePhase;
+}
+
+export default class CanvasSection extends Component<Props, State> {
+    _canvas = createRef<HTMLCanvasElement>();
+    _fileInput = createRef<HTMLInputElement>();
+
+    state = {
+        fileName: "",
+        fileLoaded: false,
+        scale: "initial" as ScalePhase,
+    };
+
+    scale = (phase: ScalePhase) => {
         this.setState({ scale: phase });
     }
 
-    handleFileChange(file) {
-        let canvas = this._canvas;
-        let ctx = canvas.getContext("2d");
-
-        let reader = new FileReader();
-        reader.onload = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Create a new image from the input file
-            let img = new Image();
-            img.onload = () => {
-                canvas.height = img.height;
-                canvas.width = img.width;
-                ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(img, 0, 0);
-            };
-            img.src = reader.result;
-        };
+    handleFileChange = (file?: File) => {
+        const canvas = this._canvas.current!;
+        const ctx = canvas.getContext("2d")!;
 
         // Is there a file?
         if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Create a new image from the input file
+                let img = new Image();
+                img.onload = () => {
+                    canvas.height = img.height;
+                    canvas.width = img.width;
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = reader.result as string;
+            };
             reader.readAsDataURL(file);
+
             this.setState({ fileName: file.name, fileLoaded: true });
-            this.props.onFileLoaded(true, file.name);
+            this.props.onFileLoaded?.(true, file.name);
         } else {
             this.setState({ fileName: "", fileLoaded: false });
-            this.props.onFileLoaded(false, null);
+            this.props.onFileLoaded?.(false, "");
             // Reset canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             canvas.height = 150;
@@ -49,21 +70,24 @@ export default class CanvasSection extends Component {
         }
     }
 
-    resetState() {
+    resetState = () => {
         this.setState({ fileName: "", fileLoaded: false });
-        if (!this.props.disableInput) this._fileInput.value = null;
+        if (!this.props.disableInput && this._fileInput.current) {
+            this._fileInput.current.value = "";
+        }
         // Reset canvas
-        let canvas = this._canvas;
-        let ctx = canvas.getContext("2d");
+        const canvas = this._canvas.current!;
+        const ctx = canvas.getContext("2d")!;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.height = 150;
         canvas.width = 300;
     }
 
-    updateImage(image, fileName) {
+    updateImage = (image: ImageData, fileName: string) => {
         this.setState({ fileName: fileName, fileLoaded: true });
-        let canvas = this._canvas;
-        let ctx = canvas.getContext("2d");
+
+        const canvas = this._canvas.current!;
+        const ctx = canvas.getContext("2d")!;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.height = image.height;
         canvas.width = image.width;
@@ -71,32 +95,35 @@ export default class CanvasSection extends Component {
         ctx.putImageData(image, 0, 0);
     }
 
-    downloadCanvas() {
-        // Split the file name from the extension
-        let fileName = this.state.fileName;
+    downloadCanvas = () => {
         // Create a random file name
-        fileName = "stegojs_" + (Math.random() * 1000000).toFixed() + "_" +
-            fileName + ".bmp";
-        let canvas = this._canvas;
-        canvas.toBlob(function(blob) {
-            FileSaver.saveAs(blob, fileName);
+        const fileName = "stegojs_" + (Math.random() * 1000000).toFixed() + "_" +
+            this.state.fileName + ".bmp";
+        const canvas = this._canvas.current!;
+        canvas.toBlob(function (blob) {
+            if (blob) {
+                FileSaver.saveAs(blob, fileName);
+            }
         });
     }
 
-    handleProcess() {
-        let canvas = this._canvas;
-        let ctx = canvas.getContext("2d");
-        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    handleProcess = () => {
+        const canvas = this._canvas.current!;
+        const ctx = canvas.getContext("2d")!;
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         // Grab the arrayBuffer of the imageData object
-        let buffer = imageData.data.buffer;
-        this.props.process({
-            process: this.props.processName,
-            image: {
-                buffer: buffer,
-                width: canvas.width,
-                height: canvas.height,
-            },
-        });
+        const buffer = imageData.data.buffer;
+
+        if (this.props.process && this.props.processName) {
+            this.props.process({
+                process: this.props.processName,
+                image: {
+                    buffer: buffer,
+                    width: canvas.width,
+                    height: canvas.height,
+                },
+            });
+        }
     }
 
     render() {
@@ -119,8 +146,8 @@ export default class CanvasSection extends Component {
                     <input
                         type="file"
                         id={this.props.id + "-input"}
-                        ref={(ref) => this._fileInput = ref}
-                        onChange={(e) => this.handleFileChange(e.target.files[0])}
+                        ref={this._fileInput}
+                        onChange={(e) => this.handleFileChange(e.target.files?.[0])}
                     />
                 </div>}
                 <br />
@@ -135,7 +162,7 @@ export default class CanvasSection extends Component {
                     </label>
                     <canvas
                         id={this.props.id + "-canvas"}
-                        ref={(ref) => this._canvas = ref}
+                        ref={this._canvas}
                     >
                     </canvas>
                 </div>

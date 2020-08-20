@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import i18next from "i18next";
 import { BrowserRouter, Route } from "react-router-dom";
 import "noty/lib/noty.css";
@@ -7,8 +7,8 @@ import "./App.scss";
 import HomePage from "./pages/Home";
 import ComparisonPage from "./pages/Comparison";
 import InfoPage from "./pages/Info";
-import Header from "./compontens/Header/Header";
-import Footer from "./compontens/Footer/Footer";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import LangContext from "./context/LangContext";
 import translations from "./translations/translations.json";
 
@@ -18,10 +18,14 @@ const pages = [
     { name: "info", path: "info" },
 ];
 
-export default function App(props) {
-    const [translator, setTranslator] = React.useState(null);
+interface Props {
+    basePath: string;
+}
 
-    React.useEffect(() => {
+export default function App(props: Props) {
+    const [translator, setTranslator] = useState<Function | null>(null);
+
+    useEffect(() => {
         i18next.init({
             lng: "en",
             // debug: true,

@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Home 1`] = `
+<div>
+  <div
+    className="App-content"
+  >
+    <div
+      className="output-selector"
+      id="io-selector"
+    >
+      <label
+        htmlFor="mode"
+      >
+        {common:payload}
+        :
+      </label>
+      <label
+        className="radio-label"
+      >
+        <input
+          defaultChecked={true}
+          name="mode"
+          onChange={[Function]}
+          type="radio"
+        />
+        <span>
+          {common:image}
+        </span>
+      </label>
+      <label
+        className="radio-label"
+      >
+        <input
+          name="mode"
+          onChange={[Function]}
+          type="radio"
+        />
+        <span>
+          {common:text}
+        </span>
+      </label>
+    </div>
+    <div
+      className="App-progress"
+      id="stego-progressbar"
+    >
+      <div
+        className="progress-indicator-wrapper"
+      >
+        <div
+          className="grey darken-4 progress-indicator "
+          style={
+            Object {
+              "width": "0%",
+            }
+          }
+        />
+      </div>
+      <label
+        className="progress-description "
+      >
+        <span>
+          {progress_bar:perf_info}
+        </span>
+      </label>
+    </div>
+    <div
+      id="grid-wrapper"
+    >
+      <div
+        className="grid-element"
+        id="source-section"
+      >
+        <h5
+          className="section-title"
+        >
+          Source image
+        </h5>
+        <div
+          className="CanvasSelection"
+        >
+          <div>
+            <label
+              className="label"
+              htmlFor="source-input"
+            >
+              {image_input:select_file}
+            </label>
+            <br />
+            <input
+              id="source-input"
+              onChange={[Function]}
+              type="file"
+            />
+          </div>
+          <br />
+          <div
+            className="section-content scale-transition scale-initial"
+          >
+            <label
+              className="label"
+              htmlFor="source-canvas"
+            >
+              Image
+            </label>
+            <canvas
+              id="source-canvas"
+            />
+          </div>
+          <div
+            className="section-actions secondary"
+          >
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={true}
+              onClick={[Function]}
+            >
+              {common:clear}
+            </button>
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={true}
+              onClick={[Function]}
+            >
+              {common:download}
+            </button>
+          </div>
+          <div
+            className="section-actions"
+          >
+            <button
+              className="waves-effect waves-light btn grey darken-4"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <i
+                className="material-icons right"
+              />
+              decode
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="grid-element"
+        id="result-section"
+      >
+        <h5
+          className="section-title"
+        >
+          {common:payload}
+        </h5>
+        <div
+          className="CanvasSelection"
+        >
+          <div>
+            <label
+              className="label"
+              htmlFor="result-input"
+            >
+              {image_input:select_file}
+            </label>
+            <br />
+            <input
+              id="result-input"
+              onChange={[Function]}
+              type="file"
+            />
+          </div>
+          <br />
+          <div
+            className="section-content scale-transition scale-initial"
+          >
+            <label
+              className="label"
+              htmlFor="result-canvas"
+            >
+              Image
+            </label>
+            <canvas
+              id="result-canvas"
+            />
+          </div>
+          <div
+            className="section-actions secondary"
+          >
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={true}
+              onClick={[Function]}
+            >
+              {common:clear}
+            </button>
+            <button
+              className="waves-effect waves-light btn pink darken-1 black-text"
+              disabled={true}
+              onClick={[Function]}
+            >
+              {common:download}
+            </button>
+          </div>
+          <div
+            className="section-actions"
+          >
+            <button
+              className="waves-effect waves-light btn grey darken-4"
+              disabled={true}
+              onClick={[Function]}
+            >
+              <i
+                className="material-icons left"
+              />
+              encode
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

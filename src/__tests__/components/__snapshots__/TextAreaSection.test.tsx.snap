@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders CanvasSection 1`] = `
+<div
+  className="TextAreaSelection"
+>
+  <div
+    className="section-content input-field"
+  >
+    <label
+      className="label"
+      htmlFor="undefined-text"
+    >
+      {text_input:label}
+       *
+    </label>
+    <br />
+    <br />
+    <textarea
+      className="materialize-textarea textarea"
+      id="undefined-text"
+    />
+    <span>
+      * 
+      <small>
+        {text_input:large_file_info}
+      </small>
+    </span>
+  </div>
+  <div
+    className="section-actions secondary"
+  >
+    <button
+      className="waves-effect waves-light btn pink darken-1 black-text"
+      onClick={[Function]}
+    >
+      {common:clear}
+    </button>
+  </div>
+  <div
+    className="section-actions"
+  >
+    <button
+      className="waves-effect waves-light btn grey darken-4"
+      disabled={true}
+      onClick={[Function]}
+    />
+  </div>
+</div>
+`;
