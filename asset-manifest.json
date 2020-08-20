@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/steganography-js/static/css/main.5cb0acc4.chunk.css",
+    "main.js": "/steganography-js/static/js/main.2874ac1c.chunk.js",
+    "main.js.map": "/steganography-js/static/js/main.2874ac1c.chunk.js.map",
+    "runtime-main.js": "/steganography-js/static/js/runtime-main.8a0ec6a2.js",
+    "runtime-main.js.map": "/steganography-js/static/js/runtime-main.8a0ec6a2.js.map",
+    "static/css/2.e0b71c79.chunk.css": "/steganography-js/static/css/2.e0b71c79.chunk.css",
+    "static/js/2.4b915c7d.chunk.js": "/steganography-js/static/js/2.4b915c7d.chunk.js",
+    "static/js/2.4b915c7d.chunk.js.map": "/steganography-js/static/js/2.4b915c7d.chunk.js.map",
+    "index.html": "/steganography-js/index.html",
+    "precache-manifest.a69176592a51e2c8732040eb4453866d.js": "/steganography-js/precache-manifest.a69176592a51e2c8732040eb4453866d.js",
+    "service-worker.js": "/steganography-js/service-worker.js",
+    "static/css/2.e0b71c79.chunk.css.map": "/steganography-js/static/css/2.e0b71c79.chunk.css.map",
+    "static/css/main.5cb0acc4.chunk.css.map": "/steganography-js/static/css/main.5cb0acc4.chunk.css.map",
+    "static/js/2.4b915c7d.chunk.js.LICENSE.txt": "/steganography-js/static/js/2.4b915c7d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8a0ec6a2.js",
+    "static/css/2.e0b71c79.chunk.css",
+    "static/js/2.4b915c7d.chunk.js",
+    "static/css/main.5cb0acc4.chunk.css",
+    "static/js/main.2874ac1c.chunk.js"
+  ]
+}
