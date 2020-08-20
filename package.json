@@ -18,6 +18,14 @@
         "react-scripts": "3.4.1"
     },
     "devDependencies": {
+        "@types/file-saver": "^2.0.1",
+        "@types/i18next": "^13.0.0",
+        "@types/jest": "^26.0.10",
+        "@types/node": "^14.6.0",
+        "@types/react": "^16.9.46",
+        "@types/react-dom": "^16.9.8",
+        "@types/react-router-dom": "^5.1.5",
+        "typescript": "^3.9.7",
         "worker-loader": "^2.0.0"
     },
     "scripts": {
