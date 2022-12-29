@@ -12,7 +12,7 @@
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-router-dom": "^5.2.0",
-        "react-scripts": "3.4.1"
+        "react-scripts": "5.0.1"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^4.2.4",
@@ -28,7 +28,7 @@
         "@types/react-test-renderer": "^16.9.3",
         "react-test-renderer": "^16.13.1",
         "typescript": "^3.9.7",
-        "worker-loader": "^2.0.0"
+        "worker-loader": "^3.0.8"
     },
     "scripts": {
         "start": "react-scripts start",
